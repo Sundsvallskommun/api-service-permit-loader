@@ -1,6 +1,6 @@
-# TemplateSpringBoot
+# api-service-permit-loader
 
-_A concise description of what this Spring Boot microservice does._
+_Microservice for loading permits._
 
 ## Getting Started
 
@@ -8,17 +8,17 @@ _A concise description of what this Spring Boot microservice does._
 
 - **Java 25 or higher**
 - **Maven**
-- **MariaDB**(if applicable)
+- **MariaDB**
 - **Git**
-- **[Dependent Microservices](#dependencies)** (if applicable)
+- **[Dependent Microservices](#dependencies)**
 
 ### Installation
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Sundsvallskommun/YOUR-PROJECT-ID.git
-   cd YOUR-PROJECT-ID
+   git clone git@github.com:Sundsvallskommun/api-service-permit-loader.git
+   cd api-service-permit-loader
    ```
 2. **Configure the application:**
 
@@ -42,9 +42,13 @@ _A concise description of what this Spring Boot microservice does._
 
 This microservice depends on the following services:
 
-- **Service Name**
-  - **Purpose:** Brief description of what the dependent service does.
-  - **Repository:** [Link to the repository](https://github.com/Sundsvallskommun/service_name)
+- **Party**
+  - **Purpose:** Provides legal ID lookups by party identifier.
+  - **Repository:** [Sundsvallskommun/api-service-party](https://github.com/Sundsvallskommun/api-service-party)
+  - **Setup Instructions:** Refer to its documentation for installation and configuration steps.
+- **PartyAssets**
+  - **Purpose:** Manages party assets such as permits and their statuses.
+  - **Repository:** [Sundsvallskommun/api-service-party-assets](https://github.com/Sundsvallskommun/api-service-party-assets)
   - **Setup Instructions:** Refer to its documentation for installation and configuration steps.
 
 Ensure that these services are running and properly configured before starting this microservice.
@@ -82,14 +86,22 @@ Configuration is crucial for the application to run successfully. Ensure all nec
   server:
     port: 8080
   ```
-- **Database Settings:**
+- **Database Settings (MariaDB):**
 
   ```yaml
   spring:
     datasource:
-      url: jdbc:mysql://localhost:3306/your_database
-      username: your_db_username
-      password: your_db_password
+      url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+  ```
+
+  **`.env` file:**
+
+  ```properties
+  spring.datasource.url=jdbc:mariadb://localhost:3306/permit_loader
+  spring.datasource.username=root
+  spring.datasource.password=your_password
   ```
 - **External Service URLs:**
 
@@ -141,13 +153,13 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Code status
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=alert_status)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=security_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_YOUR-PROJECT-ID&metric=bugs)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_YOUR-PROJECT-ID)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=alert_status)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=security_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Sundsvallskommun_api-service-permit-loader&metric=bugs)](https://sonarcloud.io/summary/overall?id=Sundsvallskommun_api-service-permit-loader)
 
 ---
 
-© 2024 Sundsvalls kommun
+© 2026 Sundsvalls kommun
