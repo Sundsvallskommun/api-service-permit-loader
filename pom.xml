@@ -50,6 +50,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/generated/se/sundsvall/**/*</exclude>
+						<exclude>**/se/sundsvall/permitloader/Application*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

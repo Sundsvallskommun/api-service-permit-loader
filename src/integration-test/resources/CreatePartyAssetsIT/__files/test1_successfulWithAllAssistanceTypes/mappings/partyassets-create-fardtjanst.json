@@ -1,0 +1,60 @@
+{
+	"request": {
+		"method": "POST",
+		"url": "/partyassets/2281/assets",
+		"bodyPatterns": [
+			{
+				"equalToJson": {
+					"partyId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+					"type": "ParatransitPermitLocal",
+					"description": "Färdtjänst",
+					"origin": "Procapita",
+					"status": "ACTIVE",
+					"issued": "2026-01-01",
+					"validTo": "2027-01-01",
+					"additionalParameters": {
+						"migratedFrom": "Procapita",
+						"migratedAt": "${json-unit.any-string}"
+					},
+					"jsonParameters": [
+						{
+							"schemaId": "2281_paratransit_2.0",
+							"key": "ParatransitPermitLocal",
+							"value": {
+								"type": "arbetsresor",
+								"transportMode": [
+									"buss",
+									"rullstolstaxi",
+									"fordon_hogt_insteg",
+									"personbilstaxi"
+								],
+								"additionalAids": [
+									"baksate",
+									"framsate",
+									"ensamakning",
+									"hamta_lamnas",
+									"ledsagare"
+								],
+								"mobilityAids": [
+									"rollator",
+									"krycka_kapp_stavar",
+									"hopfallbar_rullstol",
+									"komfortrullstol"
+								],
+								"isWinterService": true,
+								"notes": "Anslutningsresa med specialfordon; Enstaka resa"
+							}
+						}
+					]
+				},
+				"ignoreArrayOrder": true
+			}
+		]
+	},
+	"response": {
+		"status": 201,
+		"headers": {
+			"Location": "/2281/assets/ft-asset-1111-2222-3333-444444444444"
+		}
+	}
+}

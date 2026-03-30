@@ -3,4 +3,44 @@
 #========================================
 logging:
   level:
-    root: DEBUG
+    root: INFO
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:10.6:///ittest
+  flyway:
+    enabled: false
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            database:
+              action: update
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          party:
+            provider: party
+            client-id: the-client-id
+            client-secret: the-client-secret
+            authorization-grant-type: client_credentials
+          partyassets:
+            provider: partyassets
+            client-id: the-client-id
+            client-secret: the-client-secret
+            authorization-grant-type: client_credentials
+        provider:
+          party:
+            token-uri: http://localhost:${wiremock.server.port:}/token
+          partyassets:
+            token-uri: http://localhost:${wiremock.server.port:}/token
+integration:
+  party:
+    base-url: http://localhost:${wiremock.server.port:}/party
+  partyassets:
+    base-url: http://localhost:${wiremock.server.port:}/partyassets

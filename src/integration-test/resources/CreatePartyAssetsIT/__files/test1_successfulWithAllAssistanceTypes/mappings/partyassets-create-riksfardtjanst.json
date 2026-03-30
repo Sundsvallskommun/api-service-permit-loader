@@ -1,0 +1,53 @@
+{
+	"request": {
+		"method": "POST",
+		"url": "/partyassets/2281/assets",
+		"bodyPatterns": [
+			{
+				"equalToJson": {
+					"partyId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+					"type": "ParatransitPermitNational",
+					"description": "Riksfärdtjänst",
+					"origin": "Procapita",
+					"status": "ACTIVE",
+					"issued": "2026-03-01",
+					"additionalParameters": {
+						"migratedFrom": "Procapita",
+						"migratedAt": "${json-unit.any-string}"
+					},
+					"jsonParameters": [
+						{
+							"schemaId": "2281_paratransit_2.0",
+							"key": "ParatransitPermitNational",
+							"value": {
+								"type": "privat_fritid",
+								"transportMode": [
+									"flyg",
+									"tag"
+								],
+								"additionalAids": [
+									"ledsagare"
+								],
+								"mobilityAids": [
+									"krycka_kapp_stavar",
+									"ledarhund",
+									"vagn",
+									"syrgas",
+									"elscooter_elmoped",
+									"elrullstol"
+								]
+							}
+						}
+					]
+				},
+				"ignoreArrayOrder": true
+			}
+		]
+	},
+	"response": {
+		"status": 201,
+		"headers": {
+			"Location": "/2281/assets/rft-asset-5555-6666-7777-888888888888"
+		}
+	}
+}
