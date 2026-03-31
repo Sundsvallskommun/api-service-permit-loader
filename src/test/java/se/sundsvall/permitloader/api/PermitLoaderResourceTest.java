@@ -38,15 +38,15 @@ class PermitLoaderResourceTest {
 
 	@Test
 	void testCreatePartyAssets() {
-		when(service.createPartyAssets("2281")).thenReturn(new JobSummary(5, 5, 0));
+		when(service.createPartyAssets("2281", null)).thenReturn(new JobSummary(5, 5, 0));
 
-		final var response = resource.createPartyAssets("2281");
+		final var response = resource.createPartyAssets("2281", null);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().totalProcessed()).isEqualTo(5);
 		assertThat(response.getBody().successCount()).isEqualTo(5);
 		assertThat(response.getBody().errorCount()).isZero();
-		verify(service).createPartyAssets("2281");
+		verify(service).createPartyAssets("2281", null);
 	}
 }

@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.sundsvall.permitloader.api.model.JobSummary;
 import se.sundsvall.permitloader.service.PermitLoaderService;
@@ -27,7 +28,9 @@ class PermitLoaderResource {
 	}
 
 	@PostMapping(value = "/create-party-assets", produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<JobSummary> createPartyAssets(@PathVariable final String municipalityId) {
-		return ok(service.createPartyAssets(municipalityId));
+	public ResponseEntity<JobSummary> createPartyAssets(
+		@PathVariable final String municipalityId,
+		@RequestParam(required = false) final Integer limit) {
+		return ok(service.createPartyAssets(municipalityId, limit));
 	}
 }

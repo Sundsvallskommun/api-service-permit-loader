@@ -88,7 +88,7 @@ class PermitLoaderServiceTest {
 		when(partyAssetsClient.createAsset(eq("2281"), any(AssetCreateRequest.class))).thenReturn(response);
 		doNothing().when(transactionalHelper).saveEntity(any());
 
-		final var result = service.createPartyAssets("2281");
+		final var result = service.createPartyAssets("2281", null);
 
 		assertThat(result.totalProcessed()).isEqualTo(1);
 		assertThat(result.successCount()).isEqualTo(1);
@@ -108,7 +108,7 @@ class PermitLoaderServiceTest {
 			.thenThrow(new RuntimeException("Service unavailable"));
 		doNothing().when(transactionalHelper).saveEntity(any());
 
-		final var result = service.createPartyAssets("2281");
+		final var result = service.createPartyAssets("2281", null);
 
 		assertThat(result.totalProcessed()).isEqualTo(1);
 		assertThat(result.successCount()).isZero();
@@ -128,7 +128,7 @@ class PermitLoaderServiceTest {
 		when(partyAssetsClient.createAsset(eq("2281"), any(AssetCreateRequest.class))).thenReturn(response);
 		doNothing().when(transactionalHelper).saveEntity(any());
 
-		final var result = service.createPartyAssets("2281");
+		final var result = service.createPartyAssets("2281", null);
 
 		// Two groups: one for FARDTJANST, one for RIKSFARDTJANST
 		assertThat(result.totalProcessed()).isEqualTo(2);
