@@ -3,7 +3,6 @@ package se.sundsvall.permitloader.service;
 import java.net.URI;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,10 @@ import se.sundsvall.permitloader.integration.db.ProcapitaRawRepository;
 import se.sundsvall.permitloader.integration.db.model.ProcapitaRawEntity;
 import se.sundsvall.permitloader.integration.party.PartyClient;
 import se.sundsvall.permitloader.integration.partyassets.PartyAssetsClient;
-import se.sundsvall.permitloader.service.mapper.PermitMapper;
+
+import static java.lang.Math.max;
+import static java.util.stream.Collectors.groupingBy;
+import static se.sundsvall.permitloader.service.mapper.PermitMapper.toAssetCreateRequest;
 
 @Service
 public class PermitLoaderService {
@@ -28,6 +30,7 @@ public class PermitLoaderService {
 		final PartyClient partyClient,
 		final PartyAssetsClient partyAssetsClient,
 		final TransactionalHelper transactionalHelper) {
+
 		this.repository = repository;
 		this.partyClient = partyClient;
 		this.partyAssetsClient = partyAssetsClient;
@@ -38,8 +41,7 @@ public class PermitLoaderService {
 		final var records = repository.findByPersonalNumberIsNotNullAndPartyIdIsNull();
 		LOG.info("Found {} records without partyId", records.size());
 
-		final var byPersonalNumber = records.stream()
-			.collect(Collectors.groupingBy(ProcapitaRawEntity::getPersonalNumber));
+		final var byPersonalNumber = records.stream().collect(groupingBy(ProcapitaRawEntity::getPersonalNumber));
 
 		int successCount = 0;
 		int errorCount = 0;
@@ -76,8 +78,7 @@ public class PermitLoaderService {
 		final var records = repository.findByPartyIdIsNotNullAndPartyAssetIdIsNull();
 		LOG.info("Found {} records to create party assets for", records.size());
 
-		final var groups = records.stream()
-			.collect(Collectors.groupingBy(row -> row.getPersonalNumber() + "|" + row.getPermitGroup()));
+		final var groups = records.stream().collect(groupingBy(row -> row.getPersonalNumber() + "|" + row.getPermitGroup()));
 
 		int successCount = 0;
 		int errorCount = 0;
@@ -87,7 +88,7 @@ public class PermitLoaderService {
 			final var permitGroup = rows.getFirst().getPermitGroup();
 
 			try {
-				final var request = PermitMapper.toAssetCreateRequest(permitGroup, rows);
+				final var request = toAssetCreateRequest(permitGroup, rows);
 				final var response = partyAssetsClient.createAsset(municipalityId, request);
 				final var location = response.getHeaders().getLocation();
 				final var partyAssetId = location != null ? extractIdFromLocation(location) : null;
@@ -126,6 +127,6 @@ public class PermitLoaderService {
 	}
 
 	private static String mask(final String personalNumber) {
-		return personalNumber.substring(Math.max(0, personalNumber.length() - 4));
+		return personalNumber.substring(max(0, personalNumber.length() - 4));
 	}
 }
