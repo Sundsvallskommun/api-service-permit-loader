@@ -13,12 +13,15 @@ import se.sundsvall.permitloader.integration.db.model.ProcapitaRawEntity;
 
 public final class PermitMapper {
 
-	private static final String SCHEMA_ID = "2281_paratransit_2.0";
 	private static final String ORIGIN = "Procapita";
 
 	private static final Map<String, String> PERMIT_GROUP_TO_TYPE = Map.of(
 		"FARDTJANST", "ParatransitPermitLocal",
 		"RIKSFARDTJANST", "ParatransitPermitNational");
+
+	private static final Map<String, String> PERMIT_GROUP_TO_SCHEMA = Map.of(
+		"FARDTJANST", "2281_paratransitpermitlocal_2.0",
+		"RIKSFARDTJANST", "2281_paratransitpermitnational_2.0");
 
 	private static final Map<String, String> PERMIT_GROUP_TO_DESCRIPTION = Map.of(
 		"FARDTJANST", "Färdtjänst",
@@ -58,7 +61,7 @@ public final class PermitMapper {
 		rows.forEach(row -> AssistanceTypeMapper.applyAssistanceType(row.getAssistanceType(), builder));
 
 		final var jsonParam = new AssetJsonParameter();
-		jsonParam.setSchemaId(SCHEMA_ID);
+		jsonParam.setSchemaId(PERMIT_GROUP_TO_SCHEMA.getOrDefault(permitGroup, permitGroup));
 		jsonParam.setKey(type);
 		jsonParam.setValue(builder.build());
 		request.setJsonParameters(List.of(jsonParam));

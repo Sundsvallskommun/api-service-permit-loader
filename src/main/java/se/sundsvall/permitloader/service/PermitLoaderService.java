@@ -74,7 +74,7 @@ public class PermitLoaderService {
 		return new JobSummary(byPersonalNumber.size(), successCount, errorCount);
 	}
 
-	public JobSummary createPartyAssets(final String municipalityId) {
+	public JobSummary createPartyAssets(final String municipalityId, final Integer limit) {
 		final var records = repository.findByPartyIdIsNotNullAndPartyAssetIdIsNull();
 		LOG.info("Found {} records to create party assets for", records.size());
 
@@ -82,8 +82,13 @@ public class PermitLoaderService {
 
 		int successCount = 0;
 		int errorCount = 0;
-
+		int processed = 0;
 		for (final var entry : groups.entrySet()) {
+
+			if (limit != null && processed >= limit) {
+				break;
+			}
+
 			final var rows = entry.getValue();
 			final var permitGroup = rows.getFirst().getPermitGroup();
 
@@ -104,10 +109,11 @@ public class PermitLoaderService {
 				LOG.error("Failed to create party asset for group {}: {}", entry.getKey(), e.getMessage());
 				updateRows(rows, row -> row.setStatus("ASSET_CREATION_ERROR: " + e.getMessage()));
 			}
+			processed++;
 		}
 
-		LOG.info("createPartyAssets completed. Total groups: {}, Success: {}, Errors: {}", groups.size(), successCount, errorCount);
-		return new JobSummary(groups.size(), successCount, errorCount);
+		LOG.info("createPartyAssets completed. Total groups: {}, Processed: {}, Success: {}, Errors: {}", groups.size(), processed, successCount, errorCount);
+		return new JobSummary(processed, successCount, errorCount);
 	}
 
 	private void updateRows(final List<ProcapitaRawEntity> rows, final Consumer<ProcapitaRawEntity> updater) {

@@ -17,7 +17,7 @@
 					},
 					"jsonParameters": [
 						{
-							"schemaId": "2281_paratransit_2.0",
+							"schemaId": "2281_paratransitpermitnational_2.0",
 							"key": "ParatransitPermitNational",
 							"value": {
 								"type": "privat_fritid",

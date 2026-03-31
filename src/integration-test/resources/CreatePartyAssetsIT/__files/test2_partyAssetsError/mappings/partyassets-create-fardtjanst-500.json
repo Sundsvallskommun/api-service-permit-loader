@@ -18,7 +18,7 @@
 					},
 					"jsonParameters": [
 						{
-							"schemaId": "2281_paratransit_2.0",
+							"schemaId": "2281_paratransitpermitlocal_2.0",
 							"key": "ParatransitPermitLocal",
 							"value": {
 								"type": "arbetsresor",
