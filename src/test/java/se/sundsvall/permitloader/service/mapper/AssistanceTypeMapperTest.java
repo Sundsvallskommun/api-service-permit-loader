@@ -95,14 +95,18 @@ class AssistanceTypeMapperTest {
 	void testPermitTypeValuesDoNotProduceJsonFields() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Färdtjänst utan ledsagare", builder);
-		assertThat(builder.build()).isEmpty();
+		assertThat(builder.build())
+			.hasSize(1)
+			.containsEntry("isWinterService", false);
 	}
 
 	@Test
 	void testNullAssistanceType() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType(null, builder);
-		assertThat(builder.build()).isEmpty();
+		assertThat(builder.build())
+			.hasSize(1)
+			.containsEntry("isWinterService", false);
 	}
 
 	@Test

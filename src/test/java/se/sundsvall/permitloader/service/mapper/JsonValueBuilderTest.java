@@ -33,7 +33,9 @@ class JsonValueBuilderTest {
 	void testBuildWithEmptyBuilder() {
 		final var result = new JsonValueBuilder().build();
 
-		assertThat(result).isEmpty();
+		assertThat(result)
+			.hasSize(1)
+			.containsEntry("isWinterService", false);
 	}
 
 	@Test
@@ -44,8 +46,9 @@ class JsonValueBuilderTest {
 		final var result = builder.build();
 
 		assertThat(result)
-			.hasSize(1)
-			.containsEntry("type", "privat_fritid");
+			.hasSize(2)
+			.containsEntry("type", "privat_fritid")
+			.containsEntry("isWinterService", false);
 	}
 
 	@Test

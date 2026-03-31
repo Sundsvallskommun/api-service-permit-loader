@@ -35,7 +35,8 @@
 									"syrgas",
 									"elscooter_elmoped",
 									"elrullstol"
-								]
+								],
+								"isWinterService": false
 							}
 						}
 					]

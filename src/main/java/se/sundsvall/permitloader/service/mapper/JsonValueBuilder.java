@@ -13,7 +13,7 @@ public class JsonValueBuilder {
 	private final Set<String> transportMode = new LinkedHashSet<>();
 	private final Set<String> additionalAids = new LinkedHashSet<>();
 	private final Set<String> mobilityAids = new LinkedHashSet<>();
-	private Boolean winterService;
+	private boolean winterService;
 	private final List<String> notes = new ArrayList<>();
 
 	public void setType(final String type) {
@@ -32,7 +32,7 @@ public class JsonValueBuilder {
 		mobilityAids.add(aid);
 	}
 
-	public void setWinterService(final Boolean winterService) {
+	public void setWinterService(final boolean winterService) {
 		this.winterService = winterService;
 	}
 
@@ -55,9 +55,7 @@ public class JsonValueBuilder {
 		if (!mobilityAids.isEmpty()) {
 			result.put("mobilityAids", List.copyOf(mobilityAids));
 		}
-		if (winterService != null) {
-			result.put("isWinterService", winterService);
-		}
+		result.put("isWinterService", winterService);
 		if (!notes.isEmpty()) {
 			result.put("notes", String.join("; ", notes));
 		}
