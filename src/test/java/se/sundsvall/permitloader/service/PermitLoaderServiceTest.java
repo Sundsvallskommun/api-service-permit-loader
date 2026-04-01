@@ -83,7 +83,6 @@ class PermitLoaderServiceTest {
 
 		when(repository.findByPartyIdIsNotNullAndPartyAssetIdIsNull()).thenReturn(List.of(entity1, entity2));
 
-		@SuppressWarnings("unchecked")
 		final ResponseEntity<Void> response = ResponseEntity.created(URI.create("/2281/assets/asset-uuid-456")).build();
 		when(partyAssetsClient.createAsset(eq("2281"), any(AssetCreateRequest.class))).thenReturn(response);
 		doNothing().when(transactionalHelper).saveEntity(any());
@@ -123,7 +122,6 @@ class PermitLoaderServiceTest {
 
 		when(repository.findByPartyIdIsNotNullAndPartyAssetIdIsNull()).thenReturn(List.of(ftEntity, rftEntity));
 
-		@SuppressWarnings("unchecked")
 		final ResponseEntity<Void> response = ResponseEntity.created(URI.create("/2281/assets/uuid-1")).build();
 		when(partyAssetsClient.createAsset(eq("2281"), any(AssetCreateRequest.class))).thenReturn(response);
 		doNothing().when(transactionalHelper).saveEntity(any());

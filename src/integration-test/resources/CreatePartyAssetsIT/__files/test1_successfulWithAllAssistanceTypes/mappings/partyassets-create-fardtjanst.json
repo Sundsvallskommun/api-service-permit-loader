@@ -18,7 +18,7 @@
 					},
 					"jsonParameters": [
 						{
-							"schemaId": "2281_paratransitpermitlocal_2.1",
+							"schemaId": "2281_paratransitpermitlocal_2.2",
 							"key": "ParatransitPermitLocal",
 							"value": {
 								"type": [
@@ -27,8 +27,7 @@
 								],
 								"transportMode": [
 									"buss",
-									"rullstolstaxi",
-									"fordon_hogt_insteg",
+									"specialfordon",
 									"personbilstaxi"
 								],
 								"additionalAids": [
@@ -36,7 +35,8 @@
 									"framsate",
 									"ensamakning",
 									"hamta_lamnas",
-									"ledsagare"
+									"ledsagare",
+									"begransat_antal_resor"
 								],
 								"mobilityAids": [
 									"rollator",
@@ -45,7 +45,7 @@
 									"komfortrullstol"
 								],
 								"isWinterService": true,
-								"notes": "Anslutningsresa med specialfordon; Enstaka resa"
+								"notes": "Anslutningsresa med specialfordon"
 							}
 						}
 					]

@@ -48,7 +48,7 @@ class AssistanceTypeMapperTest {
 	void testTransportModeSpecialfordon() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Specialfordon", builder);
-		assertThat(builder.build()).containsEntry("transportMode", List.of("rullstolstaxi", "fordon_hogt_insteg"));
+		assertThat(builder.build()).containsEntry("transportMode", List.of("specialfordon"));
 	}
 
 	@Test
@@ -87,10 +87,10 @@ class AssistanceTypeMapperTest {
 	}
 
 	@Test
-	void testNotes() {
+	void testAdditionalAidsEnstakaResa() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Enstaka resa", builder);
-		assertThat(builder.build()).containsEntry("notes", "Enstaka resa");
+		assertThat(builder.build()).containsEntry("additionalAids", List.of("begransat_antal_resor"));
 	}
 
 	@Test
@@ -134,8 +134,7 @@ class AssistanceTypeMapperTest {
 			.containsEntry("type", List.of("arbetsresor"))
 			.containsEntry("transportMode", List.of("buss"))
 			.containsEntry("mobilityAids", List.of("rollator"))
-			.containsEntry("additionalAids", List.of("ledsagare"))
-			.containsEntry("isWinterService", true)
-			.containsEntry("notes", "Enstaka resa");
+			.containsEntry("additionalAids", List.of("begransat_antal_resor", "ledsagare"))
+			.containsEntry("isWinterService", true);
 	}
 }

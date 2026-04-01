@@ -23,7 +23,7 @@ public final class AssistanceTypeMapper {
 		"Flyg", List.of("flyg"),
 		"Tåg", List.of("tag"),
 		"Bil", List.of("personbilstaxi"),
-		"Specialfordon", List.of("rullstolstaxi", "fordon_hogt_insteg"));
+		"Specialfordon", List.of("specialfordon"));
 
 	private static final Map<String, List<String>> ADDITIONAL_AIDS_MAP = Map.of(
 		"Baksäte", List.of("baksate"),
@@ -31,7 +31,8 @@ public final class AssistanceTypeMapper {
 		"Ensamåkning", List.of("ensamakning"),
 		"Hämta/Lämna bostaden", List.of("hamta_lamnas"),
 		"Färdtjänst med ledsagare", List.of("ledsagare"),
-		"Riksfärdtjänst med ledsagare", List.of("ledsagare"));
+		"Riksfärdtjänst med ledsagare", List.of("ledsagare"),
+		"Enstaka resa", List.of("begransat_antal_resor"));
 
 	private static final Map<String, List<String>> MOBILITY_AIDS_MAP = Map.ofEntries(
 		Map.entry("Rollator", List.of("rollator")),
@@ -45,8 +46,7 @@ public final class AssistanceTypeMapper {
 		Map.entry("Rullstol", List.of("hopfallbar_rullstol", "komfortrullstol")));
 
 	private static final Map<String, String> NOTES_MAP = Map.of(
-		"Anslutningsresa m specialfordon", "Anslutningsresa med specialfordon",
-		"Enstaka resa", "Enstaka resa");
+		"Anslutningsresa m specialfordon", "Anslutningsresa med specialfordon");
 
 	private static final String WINTER_SERVICE = "Vinterfärdtjänst";
 
