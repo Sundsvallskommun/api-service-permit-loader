@@ -17,10 +17,13 @@
 					},
 					"jsonParameters": [
 						{
-							"schemaId": "2281_paratransitpermitnational_2.0",
+							"schemaId": "2281_paratransitpermitnational_2.1",
 							"key": "ParatransitPermitNational",
 							"value": {
-								"type": "privat_fritid",
+								"type": [
+									"generellt_tillstand",
+									"privat_fritid"
+								],
 								"transportMode": [
 									"flyg",
 									"tag"

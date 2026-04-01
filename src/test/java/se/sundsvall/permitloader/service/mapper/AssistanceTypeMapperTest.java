@@ -11,21 +11,30 @@ class AssistanceTypeMapperTest {
 	void testTypeMapping() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Arbetsresor", builder);
-		assertThat(builder.build()).containsEntry("type", "arbetsresor");
+		assertThat(builder.build()).containsEntry("type", List.of("arbetsresor"));
 	}
 
 	@Test
 	void testTypeMappingPrivatresor() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Privatresor", builder);
-		assertThat(builder.build()).containsEntry("type", "privat_fritid");
+		assertThat(builder.build()).containsEntry("type", List.of("privat_fritid"));
 	}
 
 	@Test
 	void testTypeMappingGenerelltTillstand() {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Generellt tillstånd", builder);
-		assertThat(builder.build()).containsEntry("type", "generellt_tillstand");
+		assertThat(builder.build()).containsEntry("type", List.of("generellt_tillstand"));
+	}
+
+	@Test
+	void testMultipleTypeMappings() {
+		final var builder = new JsonValueBuilder();
+		AssistanceTypeMapper.applyAssistanceType("Arbetsresor", builder);
+		AssistanceTypeMapper.applyAssistanceType("Privatresor", builder);
+		AssistanceTypeMapper.applyAssistanceType("Generellt tillstånd", builder);
+		assertThat(builder.build()).containsEntry("type", List.of("arbetsresor", "privat_fritid", "generellt_tillstand"));
 	}
 
 	@Test
@@ -122,7 +131,7 @@ class AssistanceTypeMapperTest {
 		final var result = builder.build();
 
 		assertThat(result)
-			.containsEntry("type", "arbetsresor")
+			.containsEntry("type", List.of("arbetsresor"))
 			.containsEntry("transportMode", List.of("buss"))
 			.containsEntry("mobilityAids", List.of("rollator"))
 			.containsEntry("additionalAids", List.of("ledsagare"))

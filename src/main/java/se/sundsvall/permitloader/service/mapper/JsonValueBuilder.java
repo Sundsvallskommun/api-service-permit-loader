@@ -9,15 +9,15 @@ import java.util.Set;
 
 public class JsonValueBuilder {
 
-	private String type;
+	private final Set<String> type = new LinkedHashSet<>();
 	private final Set<String> transportMode = new LinkedHashSet<>();
 	private final Set<String> additionalAids = new LinkedHashSet<>();
 	private final Set<String> mobilityAids = new LinkedHashSet<>();
 	private boolean winterService;
 	private final List<String> notes = new ArrayList<>();
 
-	public void setType(final String type) {
-		this.type = type;
+	public void addType(final String type) {
+		this.type.add(type);
 	}
 
 	public void addTransportMode(final String mode) {
@@ -43,8 +43,8 @@ public class JsonValueBuilder {
 	public Map<String, Object> build() {
 		final var result = new LinkedHashMap<String, Object>();
 
-		if (type != null) {
-			result.put("type", type);
+		if (!type.isEmpty()) {
+			result.put("type", List.copyOf(type));
 		}
 		if (!transportMode.isEmpty()) {
 			result.put("transportMode", List.copyOf(transportMode));

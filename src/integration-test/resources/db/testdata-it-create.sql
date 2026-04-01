@@ -1,7 +1,7 @@
 -- Person A: Has partyId, ready for PartyAssets creation
 -- All assistance_types covered across FARDTJANST and RIKSFARDTJANST
 
--- FARDTJANST group (13 rows covering: type, transportMode, additionalAids, mobilityAids, winterService, notes, permit-type)
+-- FARDTJANST group (14 rows covering: type (multiple), transportMode, additionalAids, mobilityAids, winterService, notes, permit-type)
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (1,  '199001011234', 'Arbetsresor',                    '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (2,  '199001011234', 'Buss',                           '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (3,  '199001011234', 'Specialfordon',                  '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
@@ -18,8 +18,9 @@ INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (14, '199001011234', 'Vinterfärdtjänst',               '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (15, '199001011234', 'Anslutningsresa m specialfordon','2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (16, '199001011234', 'Enstaka resa',                   '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
+INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (29, '199001011234', 'Privatresor',                    '2026-01-01', '2027-01-01', 'FARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 
--- RIKSFARDTJANST group (11 rows covering remaining assistance_types)
+-- RIKSFARDTJANST group (12 rows covering remaining assistance_types)
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (17, '199001011234', 'Generellt tillstånd',             '2026-03-01', NULL, 'RIKSFARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (18, '199001011234', 'Privatresor',                    '2026-03-01', NULL, 'RIKSFARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');
 INSERT INTO procapita_raw (id, personal_number, assistance_type, start_date, end_date, permit_group, party_id, status) VALUES (19, '199001011234', 'Flyg',                           '2026-03-01', NULL, 'RIKSFARDTJANST', 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee', 'PARTY_ID_FETCHED');

@@ -10,7 +10,8 @@ class JsonValueBuilderTest {
 	@Test
 	void testBuildWithAllValues() {
 		final var builder = new JsonValueBuilder();
-		builder.setType("arbetsresor");
+		builder.addType("arbetsresor");
+		builder.addType("privat_fritid");
 		builder.addTransportMode("buss");
 		builder.addTransportMode("tag");
 		builder.addAdditionalAid("baksate");
@@ -21,7 +22,7 @@ class JsonValueBuilderTest {
 		final var result = builder.build();
 
 		assertThat(result)
-			.containsEntry("type", "arbetsresor")
+			.containsEntry("type", List.of("arbetsresor", "privat_fritid"))
 			.containsEntry("transportMode", List.of("buss", "tag"))
 			.containsEntry("additionalAids", List.of("baksate"))
 			.containsEntry("mobilityAids", List.of("rollator"))
@@ -39,16 +40,42 @@ class JsonValueBuilderTest {
 	}
 
 	@Test
-	void testBuildWithOnlyType() {
+	void testBuildWithSingleType() {
 		final var builder = new JsonValueBuilder();
-		builder.setType("privat_fritid");
+		builder.addType("privat_fritid");
 
 		final var result = builder.build();
 
 		assertThat(result)
 			.hasSize(2)
-			.containsEntry("type", "privat_fritid")
+			.containsEntry("type", List.of("privat_fritid"))
 			.containsEntry("isWinterService", false);
+	}
+
+	@Test
+	void testBuildWithMultipleTypes() {
+		final var builder = new JsonValueBuilder();
+		builder.addType("arbetsresor");
+		builder.addType("privat_fritid");
+		builder.addType("generellt_tillstand");
+
+		final var result = builder.build();
+
+		assertThat(result)
+			.hasSize(2)
+			.containsEntry("type", List.of("arbetsresor", "privat_fritid", "generellt_tillstand"))
+			.containsEntry("isWinterService", false);
+	}
+
+	@Test
+	void testDuplicateTypesAreIgnored() {
+		final var builder = new JsonValueBuilder();
+		builder.addType("arbetsresor");
+		builder.addType("arbetsresor");
+
+		final var result = builder.build();
+
+		assertThat(result).containsEntry("type", List.of("arbetsresor"));
 	}
 
 	@Test

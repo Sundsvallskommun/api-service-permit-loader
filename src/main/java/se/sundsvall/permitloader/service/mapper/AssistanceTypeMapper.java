@@ -65,7 +65,7 @@ public final class AssistanceTypeMapper {
 		final var value = assistanceType.trim();
 		boolean matched = false;
 
-		matched |= applyIfPresent(TYPE_MAP, value, builder::setType);
+		matched |= applyIfPresent(TYPE_MAP, value, builder::addType);
 		matched |= applyListIfPresent(TRANSPORT_MODE_MAP, value, builder::addTransportMode);
 		matched |= applyListIfPresent(ADDITIONAL_AIDS_MAP, value, builder::addAdditionalAid);
 		matched |= applyListIfPresent(MOBILITY_AIDS_MAP, value, builder::addMobilityAid);

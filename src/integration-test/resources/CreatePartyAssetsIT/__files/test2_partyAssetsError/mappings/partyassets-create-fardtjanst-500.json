@@ -18,10 +18,13 @@
 					},
 					"jsonParameters": [
 						{
-							"schemaId": "2281_paratransitpermitlocal_2.0",
+							"schemaId": "2281_paratransitpermitlocal_2.1",
 							"key": "ParatransitPermitLocal",
 							"value": {
-								"type": "arbetsresor",
+								"type": [
+									"arbetsresor",
+									"privat_fritid"
+								],
 								"transportMode": [
 									"buss",
 									"rullstolstaxi",

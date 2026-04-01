@@ -20,8 +20,8 @@ public final class PermitMapper {
 		"RIKSFARDTJANST", "ParatransitPermitNational");
 
 	private static final Map<String, String> PERMIT_GROUP_TO_SCHEMA = Map.of(
-		"FARDTJANST", "2281_paratransitpermitlocal_2.0",
-		"RIKSFARDTJANST", "2281_paratransitpermitnational_2.0");
+		"FARDTJANST", "2281_paratransitpermitlocal_2.1",
+		"RIKSFARDTJANST", "2281_paratransitpermitnational_2.1");
 
 	private static final Map<String, String> PERMIT_GROUP_TO_DESCRIPTION = Map.of(
 		"FARDTJANST", "Färdtjänst",

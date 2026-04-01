@@ -34,7 +34,7 @@ class PermitMapperTest {
 		assertThat(result.getJsonParameters()).hasSize(1);
 
 		final var jsonParam = result.getJsonParameters().getFirst();
-		assertThat(jsonParam.getSchemaId()).isEqualTo("2281_paratransitpermitlocal_2.0");
+		assertThat(jsonParam.getSchemaId()).isEqualTo("2281_paratransitpermitlocal_2.1");
 		assertThat(jsonParam.getKey()).isEqualTo("ParatransitPermitLocal");
 	}
 
@@ -51,7 +51,7 @@ class PermitMapperTest {
 		assertThat(result.getValidTo()).isEqualTo(LocalDate.of(2027, 3, 1));
 
 		final var jsonParam = result.getJsonParameters().getFirst();
-		assertThat(jsonParam.getSchemaId()).isEqualTo("2281_paratransitpermitnational_2.0");
+		assertThat(jsonParam.getSchemaId()).isEqualTo("2281_paratransitpermitnational_2.1");
 		assertThat(jsonParam.getKey()).isEqualTo("ParatransitPermitNational");
 	}
 
