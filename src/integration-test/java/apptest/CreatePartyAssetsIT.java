@@ -36,8 +36,10 @@ class CreatePartyAssetsIT extends AbstractAppTest {
 			.withExpectedResponse("expected-response.json")
 			.sendRequestAndVerifyResponse();
 
-		// FARDTJANST rows (ids 1-16) should have the FT asset id
-		final var ftIds = LongStream.rangeClosed(1, 16).boxed().toList();
+		// FARDTJANST rows (ids 1-16, 29) should have the FT asset id
+		final var ftIds = java.util.stream.Stream.concat(
+			LongStream.rangeClosed(1, 16).boxed(),
+			java.util.stream.Stream.of(29L)).toList();
 		final var ftRecords = repository.findAllById(ftIds);
 		assertThat(ftRecords).isNotEmpty().allSatisfy(entity -> {
 			assertThat(entity.getPartyAssetId()).isEqualTo("ft-asset-1111-2222-3333-444444444444");
@@ -63,7 +65,9 @@ class CreatePartyAssetsIT extends AbstractAppTest {
 			.sendRequestAndVerifyResponse();
 
 		// All rows should have error status and no asset id
-		final var allIds = LongStream.rangeClosed(1, 28).boxed().toList();
+		final var allIds = java.util.stream.Stream.concat(
+			LongStream.rangeClosed(1, 28).boxed(),
+			java.util.stream.Stream.of(29L)).toList();
 		final var allRecords = repository.findAllById(allIds);
 		assertThat(allRecords).isNotEmpty().allSatisfy(entity -> {
 			assertThat(entity.getPartyAssetId()).isNull();
@@ -80,8 +84,10 @@ class CreatePartyAssetsIT extends AbstractAppTest {
 			.withExpectedResponse("expected-response.json")
 			.sendRequest();
 
-		// FARDTJANST rows (ids 1-16) should succeed
-		final var ftIds = LongStream.rangeClosed(1, 16).boxed().toList();
+		// FARDTJANST rows (ids 1-16, 29) should succeed
+		final var ftIds = java.util.stream.Stream.concat(
+			LongStream.rangeClosed(1, 16).boxed(),
+			java.util.stream.Stream.of(29L)).toList();
 		final var ftRecords = repository.findAllById(ftIds);
 		assertThat(ftRecords).isNotEmpty().allSatisfy(entity -> {
 			assertThat(entity.getPartyAssetId()).isEqualTo("ft-asset-1111-2222-3333-444444444444");
