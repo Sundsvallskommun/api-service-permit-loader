@@ -1,6 +1,7 @@
 package se.sundsvall.permitloader.service;
 
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import se.sundsvall.permitloader.integration.partyassets.PartyAssetsClient;
 
 import static java.lang.Math.max;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 import static se.sundsvall.permitloader.service.mapper.PermitMapper.toAssetCreateRequest;
 
 @Service
@@ -78,7 +80,7 @@ public class PermitLoaderService {
 		final var records = repository.findByPartyIdIsNotNullAndPartyAssetIdIsNull();
 		LOG.info("Found {} records to create party assets for", records.size());
 
-		final var groups = records.stream().collect(groupingBy(row -> row.getPersonalNumber() + "|" + row.getPermitGroup()));
+		final var groups = records.stream().collect(groupingBy(row -> row.getPersonalNumber() + "|" + row.getPermitGroup(), LinkedHashMap::new, toList()));
 
 		int successCount = 0;
 		int errorCount = 0;
@@ -91,6 +93,7 @@ public class PermitLoaderService {
 
 			final var rows = entry.getValue();
 			final var permitGroup = rows.getFirst().getPermitGroup();
+			final var maskedGroup = mask(rows.getFirst().getPersonalNumber()) + "|" + permitGroup;
 
 			try {
 				final var result = toAssetCreateRequest(permitGroup, rows);
@@ -98,7 +101,7 @@ public class PermitLoaderService {
 				final var location = response.getHeaders().getLocation();
 				final var partyAssetId = location != null ? extractIdFromLocation(location) : null;
 
-				updateRows(rows, row -> {
+				final var allSaved = updateRows(rows, row -> {
 					row.setPartyAssetId(partyAssetId);
 					row.setStatus("ASSET_CREATED");
 					if (result.statusDetails() != null) {
@@ -106,10 +109,14 @@ public class PermitLoaderService {
 					}
 				});
 				successCount++;
-				LOG.info("Created party asset {} for group {}", partyAssetId, entry.getKey());
+				if (!allSaved) {
+					LOG.warn("Created party asset {} for group ...{} but some rows failed to save", partyAssetId, maskedGroup);
+				} else {
+					LOG.info("Created party asset {} for group ...{}", partyAssetId, maskedGroup);
+				}
 			} catch (final Exception e) {
 				errorCount++;
-				LOG.error("Failed to create party asset for group {}: {}", entry.getKey(), e.getMessage());
+				LOG.error("Failed to create party asset for group ...{}: {}", maskedGroup, e.getMessage());
 				updateRows(rows, row -> row.setStatus("ASSET_CREATION_ERROR: " + e.getMessage()));
 			}
 			processed++;
@@ -119,15 +126,18 @@ public class PermitLoaderService {
 		return new JobSummary(processed, successCount, errorCount);
 	}
 
-	private void updateRows(final List<ProcapitaRawEntity> rows, final Consumer<ProcapitaRawEntity> updater) {
+	private boolean updateRows(final List<ProcapitaRawEntity> rows, final Consumer<ProcapitaRawEntity> updater) {
+		boolean allSaved = true;
 		for (final var row : rows) {
 			try {
 				updater.accept(row);
 				transactionalHelper.saveEntity(row);
 			} catch (final Exception e) {
+				allSaved = false;
 				LOG.error("Failed to save record {}: {}", row.getId(), e.getMessage());
 			}
 		}
+		return allSaved;
 	}
 
 	private String extractIdFromLocation(final URI location) {

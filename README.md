@@ -85,17 +85,18 @@ curl -X POST http://localhost:8080/2281/permits/create-party-assets
 
 The service reads from and writes to the `procapita_raw` table. Most columns are **read-only** (loaded externally) and only the following columns are writable by the service:
 
-|      Column       | Writable |          Description           |
-|-------------------|----------|--------------------------------|
-| `personal_number` | No       | Personal number from Procapita |
-| `assistance_type` | No       | Type of assistance             |
-| `duration`        | No       | Duration of the permit         |
-| `start_date`      | No       | Permit start date              |
-| `end_date`        | No       | Permit end date                |
-| `permit_group`    | No       | FARDTJANST or RIKSFARDTJANST   |
-| `party_id`        | Yes      | Set by fetch-party-ids         |
-| `party_asset_id`  | Yes      | Set by create-party-assets     |
-| `status`          | Yes      | Processing status              |
+|      Column       | Writable |                        Description                        |
+|-------------------|----------|-----------------------------------------------------------|
+| `personal_number` | No       | Personal number from Procapita                            |
+| `assistance_type` | No       | Type of assistance                                        |
+| `duration`        | No       | Duration of the permit                                    |
+| `start_date`      | No       | Permit start date                                         |
+| `end_date`        | No       | Permit end date                                           |
+| `permit_group`    | No       | FARDTJANST or RIKSFARDTJANST                              |
+| `party_id`        | Yes      | Set by fetch-party-ids                                    |
+| `party_asset_id`  | Yes      | Set by create-party-assets                                |
+| `status`          | Yes      | Processing status                                         |
+| `status_details`  | Yes      | Additional details, e.g. when a default value was applied |
 
 ## Configuration
 
