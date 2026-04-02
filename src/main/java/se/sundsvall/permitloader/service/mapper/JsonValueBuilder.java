@@ -40,6 +40,10 @@ public class JsonValueBuilder {
 		notes.add(note);
 	}
 
+	public boolean hasType() {
+		return !type.isEmpty();
+	}
+
 	public Map<String, Object> build() {
 		final var result = new LinkedHashMap<String, Object>();
 

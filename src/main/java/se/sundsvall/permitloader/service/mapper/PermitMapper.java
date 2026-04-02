@@ -27,9 +27,15 @@ public final class PermitMapper {
 		"FARDTJANST", "Färdtjänst",
 		"RIKSFARDTJANST", "Riksfärdtjänst");
 
+	private static final Map<String, String> PERMIT_GROUP_TO_DEFAULT_TYPE = Map.of(
+		"FARDTJANST", "privat_fritid",
+		"RIKSFARDTJANST", "generellt_tillstand");
+
 	private PermitMapper() {}
 
-	public static AssetCreateRequest toAssetCreateRequest(final String permitGroup, final List<ProcapitaRawEntity> rows) {
+	public record AssetCreateResult(AssetCreateRequest request, String statusDetails) {}
+
+	public static AssetCreateResult toAssetCreateRequest(final String permitGroup, final List<ProcapitaRawEntity> rows) {
 		final var type = PERMIT_GROUP_TO_TYPE.getOrDefault(permitGroup, permitGroup);
 
 		final var request = new AssetCreateRequest();
@@ -60,12 +66,21 @@ public final class PermitMapper {
 		final var builder = new JsonValueBuilder();
 		rows.forEach(row -> AssistanceTypeMapper.applyAssistanceType(row.getAssistanceType(), builder));
 
+		String statusDetails = null;
+		if (!builder.hasType()) {
+			final var defaultType = PERMIT_GROUP_TO_DEFAULT_TYPE.get(permitGroup);
+			if (defaultType != null) {
+				builder.addType(defaultType);
+				statusDetails = "jsonParameters.type defaulted to '" + defaultType + "' (no matching type mapped from assistance_type)";
+			}
+		}
+
 		final var jsonParam = new AssetJsonParameter();
 		jsonParam.setSchemaId(PERMIT_GROUP_TO_SCHEMA.getOrDefault(permitGroup, permitGroup));
 		jsonParam.setKey(type);
 		jsonParam.setValue(builder.build());
 		request.setJsonParameters(List.of(jsonParam));
 
-		return request;
+		return new AssetCreateResult(request, statusDetails);
 	}
 }

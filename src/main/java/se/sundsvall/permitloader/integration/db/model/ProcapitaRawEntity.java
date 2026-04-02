@@ -45,6 +45,9 @@ public class ProcapitaRawEntity {
 	@Column(name = "status", columnDefinition = "longtext")
 	private String status;
 
+	@Column(name = "status_details", columnDefinition = "longtext")
+	private String statusDetails;
+
 	public Long getId() {
 		return id;
 	}
@@ -125,6 +128,14 @@ public class ProcapitaRawEntity {
 		this.status = status;
 	}
 
+	public String getStatusDetails() {
+		return statusDetails;
+	}
+
+	public void setStatusDetails(final String statusDetails) {
+		this.statusDetails = statusDetails;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) {
@@ -155,6 +166,7 @@ public class ProcapitaRawEntity {
 			", partyId='" + partyId + '\'' +
 			", partyAssetId='" + partyAssetId + '\'' +
 			", status='" + status + '\'' +
+			", statusDetails='" + statusDetails + '\'' +
 			'}';
 	}
 }

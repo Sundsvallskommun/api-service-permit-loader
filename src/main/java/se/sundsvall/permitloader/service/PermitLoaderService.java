@@ -93,14 +93,17 @@ public class PermitLoaderService {
 			final var permitGroup = rows.getFirst().getPermitGroup();
 
 			try {
-				final var request = toAssetCreateRequest(permitGroup, rows);
-				final var response = partyAssetsClient.createAsset(municipalityId, request);
+				final var result = toAssetCreateRequest(permitGroup, rows);
+				final var response = partyAssetsClient.createAsset(municipalityId, result.request());
 				final var location = response.getHeaders().getLocation();
 				final var partyAssetId = location != null ? extractIdFromLocation(location) : null;
 
 				updateRows(rows, row -> {
 					row.setPartyAssetId(partyAssetId);
 					row.setStatus("ASSET_CREATED");
+					if (result.statusDetails() != null) {
+						row.setStatusDetails(result.statusDetails());
+					}
 				});
 				successCount++;
 				LOG.info("Created party asset {} for group {}", partyAssetId, entry.getKey());

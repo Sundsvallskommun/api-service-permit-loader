@@ -1,0 +1,48 @@
+{
+	"request": {
+		"method": "POST",
+		"url": "/partyassets/2281/assets",
+		"bodyPatterns": [
+			{
+				"equalToJson": {
+					"partyId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+					"type": "ParatransitPermitLocal",
+					"description": "Färdtjänst",
+					"origin": "Procapita",
+					"status": "ACTIVE",
+					"issued": "2026-01-01",
+					"validTo": "2027-01-01",
+					"additionalParameters": {
+						"migratedFrom": "Procapita",
+						"migratedAt": "${json-unit.any-string}"
+					},
+					"jsonParameters": [
+						{
+							"schemaId": "2281_paratransitpermitlocal_2.2",
+							"key": "ParatransitPermitLocal",
+							"value": {
+								"type": [
+									"privat_fritid"
+								],
+								"transportMode": [
+									"buss"
+								],
+								"mobilityAids": [
+									"rollator"
+								],
+								"isWinterService": false
+							}
+						}
+					]
+				},
+				"ignoreArrayOrder": true
+			}
+		]
+	},
+	"response": {
+		"status": 201,
+		"headers": {
+			"Location": "/2281/assets/ft-default-1111-2222-3333-444444444444"
+		}
+	}
+}
