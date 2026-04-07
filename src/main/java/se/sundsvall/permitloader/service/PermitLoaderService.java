@@ -3,6 +3,7 @@ package se.sundsvall.permitloader.service;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +56,7 @@ public class PermitLoaderService {
 			try {
 				final var partyId = partyClient.getPartyId(municipalityId, personalNumber);
 				if (partyId.isEmpty()) {
-					LOG.atWarn().setMessage("No partyId found for personalNumber ending in '...{}'").addArgument(() -> mask(personalNumber)).log();
-					errorCount++;
-					continue;
+					throw new NoSuchElementException("No partyId found for personalNumber ending in '...%s'".formatted(mask(personalNumber)));
 				}
 				updateRows(rows, row -> {
 					row.setPartyId(partyId.get());
