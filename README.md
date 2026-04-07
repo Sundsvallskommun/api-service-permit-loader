@@ -67,11 +67,36 @@ Alternatively, refer to the `openapi.yml` file located in the project's root dir
 
 Refer to the [API Documentation](#api-documentation) for detailed information on available endpoints.
 
-### Example Request
+### Example Requests
+
+**Fetch party IDs for all unprocessed records:**
 
 ```bash
-curl -X GET http://localhost:8080/api/resource
+curl -X POST http://localhost:8080/2281/permits/fetch-party-ids
 ```
+
+**Create party assets for records with party IDs:**
+
+```bash
+curl -X POST http://localhost:8080/2281/permits/create-party-assets
+```
+
+### Database
+
+The service reads from and writes to the `procapita_raw` table. Most columns are **read-only** (loaded externally) and only the following columns are writable by the service:
+
+|      Column       | Writable |                        Description                        |
+|-------------------|----------|-----------------------------------------------------------|
+| `personal_number` | No       | Personal number from Procapita                            |
+| `assistance_type` | No       | Type of assistance                                        |
+| `duration`        | No       | Duration of the permit                                    |
+| `start_date`      | No       | Permit start date                                         |
+| `end_date`        | No       | Permit end date                                           |
+| `permit_group`    | No       | FARDTJANST or RIKSFARDTJANST                              |
+| `party_id`        | Yes      | Set by fetch-party-ids                                    |
+| `party_asset_id`  | Yes      | Set by create-party-assets                                |
+| `status`          | Yes      | Processing status                                         |
+| `status_details`  | Yes      | Additional details, e.g. when a default value was applied |
 
 ## Configuration
 

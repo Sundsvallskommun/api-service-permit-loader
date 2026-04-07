@@ -1,0 +1,46 @@
+{
+	"request": {
+		"method": "POST",
+		"url": "/partyassets/2281/assets",
+		"bodyPatterns": [
+			{
+				"equalToJson": {
+					"partyId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+					"type": "ParatransitPermitNational",
+					"description": "Riksfärdtjänst",
+					"origin": "Procapita",
+					"status": "ACTIVE",
+					"issued": "2026-03-01",
+					"validTo": "2027-03-01",
+					"additionalParameters": {
+						"migratedFrom": "Procapita",
+						"migratedAt": "${json-unit.any-string}"
+					},
+					"jsonParameters": [
+						{
+							"schemaId": "2281_paratransitpermitnational_2.2",
+							"key": "ParatransitPermitNational",
+							"value": {
+								"type": [
+									"generellt_tillstand"
+								],
+								"transportMode": [
+									"flyg",
+									"tag"
+								],
+								"isWinterService": false
+							}
+						}
+					]
+				},
+				"ignoreArrayOrder": true
+			}
+		]
+	},
+	"response": {
+		"status": 201,
+		"headers": {
+			"Location": "/2281/assets/rft-default-5555-6666-7777-888888888888"
+		}
+	}
+}

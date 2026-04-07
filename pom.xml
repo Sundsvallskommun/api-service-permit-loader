@@ -45,11 +45,31 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>add-generated-source</id>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<phase>initialize</phase>
+						<configuration>
+							<sources>
+								<source>${generated-sources-path}/models</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<configuration>
 					<excludes>
 						<exclude>**/generated/se/sundsvall/**/*</exclude>
+						<exclude>**/se/sundsvall/permitloader/Application*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
