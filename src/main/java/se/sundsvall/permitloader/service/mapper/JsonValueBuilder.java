@@ -50,9 +50,7 @@ public class JsonValueBuilder {
 		if (!type.isEmpty()) {
 			result.put("type", List.copyOf(type));
 		}
-		if (!transportMode.isEmpty()) {
-			result.put("transportMode", List.copyOf(transportMode));
-		}
+		result.put("transportMode", List.copyOf(transportMode));
 		if (!additionalAids.isEmpty()) {
 			result.put("additionalAids", List.copyOf(additionalAids));
 		}

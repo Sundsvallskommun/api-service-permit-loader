@@ -35,8 +35,21 @@ class JsonValueBuilderTest {
 		final var result = new JsonValueBuilder().build();
 
 		assertThat(result)
-			.hasSize(1)
+			.hasSize(2)
+			.containsEntry("transportMode", List.of())
 			.containsEntry("isWinterService", false);
+	}
+
+	@Test
+	void testTransportModeIsEmptyListWhenNoModesAdded() {
+		final var builder = new JsonValueBuilder();
+		builder.addType("arbetsresor");
+
+		final var result = builder.build();
+
+		assertThat(result)
+			.containsEntry("type", List.of("arbetsresor"))
+			.containsEntry("transportMode", List.of());
 	}
 
 	@Test
@@ -47,8 +60,9 @@ class JsonValueBuilderTest {
 		final var result = builder.build();
 
 		assertThat(result)
-			.hasSize(2)
+			.hasSize(3)
 			.containsEntry("type", List.of("privat_fritid"))
+			.containsEntry("transportMode", List.of())
 			.containsEntry("isWinterService", false);
 	}
 
@@ -62,8 +76,9 @@ class JsonValueBuilderTest {
 		final var result = builder.build();
 
 		assertThat(result)
-			.hasSize(2)
+			.hasSize(3)
 			.containsEntry("type", List.of("arbetsresor", "privat_fritid", "generellt_tillstand"))
+			.containsEntry("transportMode", List.of())
 			.containsEntry("isWinterService", false);
 	}
 

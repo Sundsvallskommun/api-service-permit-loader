@@ -123,6 +123,18 @@ class PermitMapperTest {
 	}
 
 	@Test
+	void testEmptyTransportModeWhenNoTransportModeMapped() {
+		final var row = createEntity(1L, "199001011234", "FARDTJANST", "Arbetsresor",
+			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+
+		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row));
+
+		@SuppressWarnings("unchecked")
+		final var jsonValue = (Map<String, Object>) result.request().getJsonParameters().getFirst().getValue();
+		assertThat(jsonValue).containsEntry("transportMode", List.of());
+	}
+
+	@Test
 	void testNoDefaultTypeWhenTypeMapped() {
 		final var row = createEntity(1L, "199001011234", "FARDTJANST", "Arbetsresor",
 			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
