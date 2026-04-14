@@ -105,7 +105,8 @@ class AssistanceTypeMapperTest {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType("Färdtjänst utan ledsagare", builder);
 		assertThat(builder.build())
-			.hasSize(1)
+			.hasSize(2)
+			.containsEntry("transportMode", List.of())
 			.containsEntry("isWinterService", false);
 	}
 
@@ -114,7 +115,8 @@ class AssistanceTypeMapperTest {
 		final var builder = new JsonValueBuilder();
 		AssistanceTypeMapper.applyAssistanceType(null, builder);
 		assertThat(builder.build())
-			.hasSize(1)
+			.hasSize(2)
+			.containsEntry("transportMode", List.of())
 			.containsEntry("isWinterService", false);
 	}
 
