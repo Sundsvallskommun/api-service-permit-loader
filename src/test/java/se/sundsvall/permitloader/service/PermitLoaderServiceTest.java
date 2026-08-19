@@ -15,6 +15,7 @@ import se.sundsvall.permitloader.integration.db.model.ProcapitaRawEntity;
 import se.sundsvall.permitloader.integration.party.PartyClient;
 import se.sundsvall.permitloader.integration.partyassets.PartyAssetsClient;
 
+import static java.time.Month.JANUARY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -140,8 +141,8 @@ class PermitLoaderServiceTest {
 		entity.setPersonalNumber(personalNumber);
 		entity.setPermitGroup(permitGroup);
 		entity.setAssistanceType(assistanceType);
-		entity.setStartDate(LocalDate.of(2026, 1, 1));
-		entity.setEndDate(LocalDate.of(2027, 1, 1));
+		entity.setStartDate(LocalDate.of(2026, JANUARY, 1));
+		entity.setEndDate(LocalDate.of(2027, JANUARY, 1));
 		return entity;
 	}
 

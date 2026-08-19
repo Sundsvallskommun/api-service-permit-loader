@@ -7,6 +7,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import se.sundsvall.permitloader.integration.db.model.ProcapitaRawEntity;
 
+import static java.time.Month.JANUARY;
+import static java.time.Month.JUNE;
+import static java.time.Month.MARCH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PermitMapperTest {
@@ -14,11 +17,11 @@ class PermitMapperTest {
 	@Test
 	void testToAssetCreateRequestForFardtjanst() {
 		final var row1 = createEntity(1L, "199001011234", "FARDTJANST", "Arbetsresor",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 		final var row2 = createEntity(2L, "199001011234", "FARDTJANST", "Buss",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 		final var row3 = createEntity(3L, "199001011234", "FARDTJANST", "Rollator",
-			LocalDate.of(2026, 1, 1), null, "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), null, "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row1, row2, row3));
 		final var request = result.request();
@@ -28,7 +31,7 @@ class PermitMapperTest {
 		assertThat(request.getPartyId()).isEqualTo("party-id-123");
 		assertThat(request.getOrigin()).isEqualTo("Procapita");
 		assertThat(request.getStatus()).isEqualTo(Status.ACTIVE);
-		assertThat(request.getIssued()).isEqualTo(LocalDate.of(2026, 1, 1));
+		assertThat(request.getIssued()).isEqualTo(LocalDate.of(2026, JANUARY, 1));
 		assertThat(request.getValidTo()).isNull(); // row3 has null end_date
 		assertThat(request.getAdditionalParameters())
 			.containsEntry("migratedFrom", "Procapita")
@@ -44,15 +47,15 @@ class PermitMapperTest {
 	@Test
 	void testToAssetCreateRequestForRiksfardtjanst() {
 		final var row = createEntity(1L, "199001011234", "RIKSFARDTJANST", "Generellt tillstånd",
-			LocalDate.of(2026, 3, 1), LocalDate.of(2027, 3, 1), "party-id-456");
+			LocalDate.of(2026, MARCH, 1), LocalDate.of(2027, MARCH, 1), "party-id-456");
 
 		final var result = PermitMapper.toAssetCreateRequest("RIKSFARDTJANST", List.of(row));
 		final var request = result.request();
 
 		assertThat(request.getType()).isEqualTo("ParatransitPermitNational");
 		assertThat(request.getDescription()).isEqualTo("Riksfärdtjänst");
-		assertThat(request.getIssued()).isEqualTo(LocalDate.of(2026, 3, 1));
-		assertThat(request.getValidTo()).isEqualTo(LocalDate.of(2027, 3, 1));
+		assertThat(request.getIssued()).isEqualTo(LocalDate.of(2026, MARCH, 1));
+		assertThat(request.getValidTo()).isEqualTo(LocalDate.of(2027, MARCH, 1));
 
 		final var jsonParam = request.getJsonParameters().getFirst();
 		assertThat(jsonParam.getSchemaId()).isEqualTo("2281_paratransitpermitnational_2.2");
@@ -63,33 +66,33 @@ class PermitMapperTest {
 	@Test
 	void testIssuedUsesEarliestStartDate() {
 		final var row1 = createEntity(1L, "199001011234", "FARDTJANST", "Buss",
-			LocalDate.of(2026, 6, 1), LocalDate.of(2027, 6, 1), "party-id-123");
+			LocalDate.of(2026, JUNE, 1), LocalDate.of(2027, JUNE, 1), "party-id-123");
 		final var row2 = createEntity(2L, "199001011234", "FARDTJANST", "Rollator",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 6, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JUNE, 1), "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row1, row2));
 
-		assertThat(result.request().getIssued()).isEqualTo(LocalDate.of(2026, 1, 1));
+		assertThat(result.request().getIssued()).isEqualTo(LocalDate.of(2026, JANUARY, 1));
 	}
 
 	@Test
 	void testValidToUsesLatestEndDate() {
 		final var row1 = createEntity(1L, "199001011234", "FARDTJANST", "Buss",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 		final var row2 = createEntity(2L, "199001011234", "FARDTJANST", "Rollator",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2028, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2028, JANUARY, 1), "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row1, row2));
 
-		assertThat(result.request().getValidTo()).isEqualTo(LocalDate.of(2028, 1, 1));
+		assertThat(result.request().getValidTo()).isEqualTo(LocalDate.of(2028, JANUARY, 1));
 	}
 
 	@Test
 	void testValidToIsNullWhenAnyRowLacksEndDate() {
 		final var row1 = createEntity(1L, "199001011234", "FARDTJANST", "Buss",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 		final var row2 = createEntity(2L, "199001011234", "FARDTJANST", "Rollator",
-			LocalDate.of(2026, 1, 1), null, "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), null, "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row1, row2));
 
@@ -99,7 +102,7 @@ class PermitMapperTest {
 	@Test
 	void testDefaultTypeForFardtjanstWhenNoTypeMapped() {
 		final var row = createEntity(1L, "199001011234", "FARDTJANST", "Buss",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row));
 
@@ -112,7 +115,7 @@ class PermitMapperTest {
 	@Test
 	void testDefaultTypeForRiksfardtjanstWhenNoTypeMapped() {
 		final var row = createEntity(1L, "199001011234", "RIKSFARDTJANST", "Flyg",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-456");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-456");
 
 		final var result = PermitMapper.toAssetCreateRequest("RIKSFARDTJANST", List.of(row));
 
@@ -125,7 +128,7 @@ class PermitMapperTest {
 	@Test
 	void testEmptyTransportModeWhenNoTransportModeMapped() {
 		final var row = createEntity(1L, "199001011234", "FARDTJANST", "Arbetsresor",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row));
 
@@ -137,7 +140,7 @@ class PermitMapperTest {
 	@Test
 	void testNoDefaultTypeWhenTypeMapped() {
 		final var row = createEntity(1L, "199001011234", "FARDTJANST", "Arbetsresor",
-			LocalDate.of(2026, 1, 1), LocalDate.of(2027, 1, 1), "party-id-123");
+			LocalDate.of(2026, JANUARY, 1), LocalDate.of(2027, JANUARY, 1), "party-id-123");
 
 		final var result = PermitMapper.toAssetCreateRequest("FARDTJANST", List.of(row));
 

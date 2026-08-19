@@ -5,6 +5,7 @@ import generated.se.sundsvall.partyassets.AssetJsonParameter;
 import generated.se.sundsvall.partyassets.Status;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public final class PermitMapper {
 
 		request.setAdditionalParameters(Map.of(
 			"migratedFrom", ORIGIN,
-			"migratedAt", OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)));
+			"migratedAt", OffsetDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)));
 
 		final var builder = new JsonValueBuilder();
 		rows.forEach(row -> AssistanceTypeMapper.applyAssistanceType(row.getAssistanceType(), builder));
